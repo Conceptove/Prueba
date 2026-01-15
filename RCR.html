@@ -55,15 +55,29 @@
         text-transform: uppercase;
         letter-spacing: 1px;
       }
+
+      .logo-marca {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        pointer-events: none;
+        z-index: 1000;
+        opacity: 0.8;
+}
     </style>
   </head>
   <body>
 
     <div class="tour-ui">
       <div id="room-name" class="room-label">Pasillo</div>
+
+      <img src="https://conceptove.github.io/Prueba/Logo_Blanco.png" class="logo-marca">
       
       <button id="btn-atras" class="nav-btn" onclick="navegar('atras')" style="display: none;">❮</button>
-      <div style="flex-grow: 1;"></div> <button id="btn-adelante" class="nav-btn" onclick="navegar('adelante')">❯</button>
+      <div style="flex-grow: 1;"></div> 
+      <button id="btn-adelante" class="nav-btn" onclick="navegar('adelante')">❯</button>
     </div>
 
     <a-scene id="main-scene" embedded>

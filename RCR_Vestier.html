@@ -1,0 +1,141 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Residencias Camino Real - Vestier</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <style>
+
+      .tour-ui {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+
+      .nav-btn {
+        pointer-events: auto;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        width: 30px;
+        height: 30px;
+        border-radius: 25%;
+        font-size: 15px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+      }
+
+      .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.9);
+        color: black;
+        transform: scale(1.1);
+      }
+
+      .room-label {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 8px 40px;
+        border-radius: 10px;
+        font-family: Montserrat;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .logo-marca {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        pointer-events: none;
+        z-index: 1000;
+        opacity: 0.8;
+}
+    </style>
+  </head>
+  <body>
+
+    <div class="tour-ui">
+      <div id="room-name" class="room-label">Vestier</div>
+
+      <img src="https://conceptove.github.io/Prueba/Logo_Blanco.png" class="logo-marca">
+      
+      <button id="btn-atras" class="nav-btn" onclick="navegar('atras')" style="display: none;">❮</button>
+      <div style="flex-grow: 1;"></div> 
+      <button id="btn-adelante" class="nav-btn" onclick="navegar('adelante')">❯</button>
+    </div>
+
+    <a-scene id="main-scene" embedded>
+      <a-assets>
+        <img id="img_Vestier_1" src="https://conceptove.github.io/Prueba/Vestier_1.png">
+        <img id="img_Vestier_2" src="https://conceptove.github.io/Prueba/Vestier_2.png">
+      </a-assets>
+
+      <a-sky id="escena-360" src="#img_Vestier_1" rotation="0 -90 0"></a-sky>
+
+      <a-camera 
+        look-controls="magicWindowTrackingEnabled: true; touchEnabled: true; mouseEnabled: true"; 
+        wasd-controls-enabled="false">
+        </a-camera>
+    </a-scene>
+
+    <script>
+      const mapaTour = {
+        'img_Vestier_1': { 
+          nombre: 'Vestier', 
+          adelante: 'img_Vestier_2', 
+          atras: null 
+        },
+        'img_Vestier_2': { 
+          nombre: 'Vestier', 
+          adelante: null, 
+          atras: 'img_Vestier_1' 
+        }
+      };
+
+      let habitacionActual = 'img_Vestier_1';
+
+      function navegar(direccion) {
+        const destinoID = mapaTour[habitacionActual][direccion];
+        if (destinoID) {
+          actualizarEscena(destinoID);
+        }
+      }
+
+      function actualizarEscena(id) {
+        habitacionActual = id;
+        
+        // 1. Cambiar la imagen 360
+        document.querySelector('#escena-360').setAttribute('src', '#' + id);
+        
+        // 2. Actualizar el nombre en la etiqueta superior
+        document.querySelector('#room-name').innerText = mapaTour[id].nombre;
+
+        // 3. Lógica de visibilidad de los botones
+        const btnAtras = document.querySelector('#btn-atras');
+        const btnAdelante = document.querySelector('#btn-adelante');
+
+        // Mostrar u ocultar flecha izquierda
+        btnAtras.style.display = mapaTour[id].atras ? 'flex' : 'none';
+        
+        // Mostrar u ocultar flecha derecha
+        btnAdelante.style.display = mapaTour[id].adelante ? 'flex' : 'none';
+      }
+    </script>
+  </body>
+</html>
